@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from "react-redux";
 
-function Header() {
+
+const Header = (props) => {
     return (
         <Container>
             <Content>
@@ -59,9 +61,15 @@ function Header() {
 
                         <User>
                             <a>
-                                <img src="/images/user.svg" />
-                                <span>Me</span>
-                                <img src="/images/down-icon.svg" />
+                                {props.user && props.user.photoURL ? (
+                                    <img src={props.user.photoURL} />
+                                ):(
+                                    <img src="/images/user.svg" />
+                                )}
+                                <span>
+                                    Me
+                                    <img src="/images/down-icon.svg" />
+                                </span>
                             </a>
                             <SignOut>
                                 <a>
@@ -87,7 +95,6 @@ function Header() {
     )
 }
 
-export default Header
 
 const Container = styled.div`
     background-color: white;
@@ -268,3 +275,14 @@ const Work = styled(User)`
 `
 
 
+const mapStateToProps = (state) => {
+    return{
+        user: state.userState.user,
+    };
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
